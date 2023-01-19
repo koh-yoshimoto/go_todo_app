@@ -28,5 +28,4 @@ func TestNewMux(t *testing.T) {
 	if string(got) != want {
 		t.Errorf("want %q, but got %q", want, got)
 	}
-
 }
