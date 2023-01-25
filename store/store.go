@@ -17,11 +17,11 @@ type TaskStore struct {
 	Tasks  map[entity.TaskID]*entity.Task
 }
 
-func (ts *TaskStore) Add(t *entity.Task) (entity.TaskID, error) {
+func (ts *TaskStore) Add(t *entity.Task) (int, error) {
 	ts.LastID++
 	t.ID = ts.LastID
 	ts.Tasks[t.ID] = t
-	return t.ID, nil
+	return int(t.ID), nil
 }
 
 func (ts *TaskStore) All() entity.Tasks {
