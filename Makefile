@@ -1,4 +1,4 @@
-.PHONY: help build build-local up down logs ps test
+.PHONY: help build build-local up down migrate logs ps test
 .DEFAULT_GOAL := help
 
 DOCKER_TAG := latest
@@ -14,6 +14,12 @@ up: ## Do docker compose up with hot reload
 
 down: ## Do docker compose down
 	docker compose down
+
+migrate: ## Migrate db
+	mysqldef -u todo -p todo -h 127.0.0.1 -P 33306 todo < ./_tools/mysql/schema.sql
+
+dry-migrate: ## Migrate db
+	mysqldef -u todo -p todo -h 127.0.0.1 -P 33306 todo --dry-run < ./_tools/mysql/schema.sql
 
 logs: ## Tail docker compose logs
 	docker compose logs -f
