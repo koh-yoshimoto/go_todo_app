@@ -13,7 +13,6 @@ import (
 )
 
 func TestAddTask(t *testing.T) {
-	t.Parallel()
 	type want struct {
 		status  int
 		rspFile string
@@ -40,7 +39,9 @@ func TestAddTask(t *testing.T) {
 
 	for n, tt := range tests {
 		tt := tt
-		t.Run(n, func(*testing.T) {
+		t.Run(n, func(t *testing.T) {
+			t.Parallel()
+
 			w := httptest.NewRecorder()
 			r := httptest.NewRequest(
 				http.MethodPost,
