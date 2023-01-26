@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/benbjohnson/clock"
 	"github.com/jmoiron/sqlx"
+	"github.com/koh-yoshimoto/go_todo_app/clock"
 	"github.com/koh-yoshimoto/go_todo_app/config"
 )
 
