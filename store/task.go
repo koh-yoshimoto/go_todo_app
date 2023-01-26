@@ -23,8 +23,8 @@ func (r *Repository) ListTasks(
 func (r *Repository) AddTask(
 	ctx context.Context, db Execer, t *entity.Task,
 ) error {
-	t.Created = r.Clocker.New()
-	t.Modified = r.Clocker.New()
+	t.Created = r.Clocker.Now()
+	t.Modified = r.Clocker.Now()
 	sql := `INSERT INTO task
 				(title, status, created, modified)
 			VALUES (?, ?, ? ?);`
