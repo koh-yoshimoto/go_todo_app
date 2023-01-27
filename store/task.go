@@ -12,7 +12,7 @@ func (r *Repository) ListTasks(
 	tasks := entity.Tasks{}
 	sql := `SELECT
 				id, title,
-				status, createdm modified
+				status, created, modified
 			FROM task;`
 	if err := db.SelectContext(ctx, &tasks, sql); err != nil {
 		return nil, err
@@ -27,7 +27,7 @@ func (r *Repository) AddTask(
 	t.Modified = r.Clocker.Now()
 	sql := `INSERT INTO task
 				(title, status, created, modified)
-			VALUES (?, ?, ? ?);`
+			VALUES (?, ?, ?, ?);`
 	result, err := db.ExecContext(
 		ctx, sql, t.Title, t.Status,
 		t.Created, t.Modified,
