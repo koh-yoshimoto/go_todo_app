@@ -18,7 +18,7 @@ down: ## Do docker compose down
 migrate: ## Migrate db
 	mysqldef -u todo -p todo -h 127.0.0.1 -P 33306 todo < ./_tools/mysql/schema.sql
 
-dry-migrate: ## Migrate db
+dry-migrate: ## Execute db migration test
 	mysqldef -u todo -p todo -h 127.0.0.1 -P 33306 todo --dry-run < ./_tools/mysql/schema.sql
 
 logs: ## Tail docker compose logs
@@ -29,6 +29,9 @@ ps: ## Check container status
 
 test: ## Execute tests
 	go test -race -shuffle=on ./...
+
+generate: ##Generate codes
+	go generate ./...
 
 help: ## Show options
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
