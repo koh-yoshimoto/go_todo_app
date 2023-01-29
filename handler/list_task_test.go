@@ -1,12 +1,13 @@
 package handler
 
 import (
+	"context"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/koh-yoshimoto/go_todo_app/entity"
-	"github.com/koh-yoshimoto/go_todo_app/store"
 	"github.com/koh-yoshimoto/go_todo_app/testutil"
 )
 
@@ -54,17 +55,17 @@ func TestListTask(t *testing.T) {
 			w := httptest.NewRecorder()
 			r := httptest.NewRequest(http.MethodGet, "/tasks", nil)
 
-			tm := make(map[entity.TaskID]*entity.Task)
-			for _, task := range tt.tasks {
-				tm[entity.TaskID(task.ID)] = task
+			moq := &ListTasksServiceMock{}
+			moq.ListTasksFunc = func(
+				ctx context.Context,
+			) (entity.Tasks, error) {
+				if tt.tasks != nil {
+					return tt.tasks, nil
+				}
+				return nil, errors.New("error from mock")
 			}
-			sut := ListTask{
-				Store: &store.TaskStore{
-					Tasks: tm,
-				},
-			}
+			sut := ListTask{Service: moq}
 			sut.ServeHTTP(w, r)
-
 			resp := w.Result()
 			testutil.AssertResponse(t,
 				resp, tt.want.status, testutil.LoadFile(t, tt.want.rspFile),
