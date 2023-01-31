@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 
@@ -62,6 +63,14 @@ var (
 	_ Queryer  = (*sqlx.DB)(nil)
 	_ Execer   = (*sqlx.DB)(nil)
 	_ Execer   = (*sqlx.Tx)(nil)
+)
+
+const (
+	ErrCodeMySQLDuplicateEntry = 1062
+)
+
+var (
+	ErrAlreadyEntry = errors.New("duplicate entry")
 )
 
 type Repository struct {
